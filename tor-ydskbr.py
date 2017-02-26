@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 #coding: utf-8
 #
+# Need Tor SOCKS proxy listen on port 9050 
 # cat notsortlist.txt | grep @yandex.ru | perl -nle 'print if m{^[[:ascii:]]+$}' | sed 's/@yandex.ru//' >> brut.txt
 #
 import requests
