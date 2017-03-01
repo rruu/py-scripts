@@ -105,13 +105,12 @@ def main():
         parser.print_help()
     else:
         with open(options.passFile) as f:
-            data = [ line.strip().split(':') for line in f ]
-
-        for username, password in data:
-            while threading.active_count()>200:
-                pass
-            t = threading.Thread(target = brute,args=(username, password))
-            t.start()
-            #brute(username, password)
+            for line in f.readlines():
+                username = line.split(':')[0]
+                password = line.split(':')[1].strip('\r').strip('\n')
+                while threading.active_count()>100:
+                    pass
+                t = threading.Thread(target = brute,args=(username, password))
+                t.start()
 
 main()
