@@ -107,7 +107,7 @@ def main():
         with open(options.passFile) as f:
             for line in f.readlines():
                 username = line.split(':')[0]
-                password = line.split(':')[1].strip('\r').strip('\n')
+                password = line.split(':')[1].strip('\r').strip('\n') if len(line.split(':')[1].strip('\r').strip('\n')) > 1 else 'null'
                 while threading.active_count()>100:
                     pass
                 t = threading.Thread(target = brute,args=(username, password))
