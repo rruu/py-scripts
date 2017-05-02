@@ -13,8 +13,9 @@ _s = sys.stderr
 sys.stderr = open('/dev/null', 'w')
 
 def attempt(ip,UserName,Password):
-    socks.set_default_proxy(socks.SOCKS5, "127.0.0.1", 9050)
-    socket.socket = socks.socksocket
+    # for tor use
+    #socks.set_default_proxy(socks.SOCKS5, "127.0.0.1", 9050)
+    #socket.socket = socks.socksocket
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     #ssh.banner_timeout = 4
