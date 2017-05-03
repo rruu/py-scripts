@@ -4,9 +4,6 @@ import urllib.request, urllib.error
 import sys, csv, time
 from multiprocessing.dummy import Pool as ThreadPool
 from threading import Lock
-from pyperi import Peri
-
-pp = Peri()
 
 if len(sys.argv) != 2:
     print("Usage: %s /path/to/users.csv" % (str(sys.argv[0])))
