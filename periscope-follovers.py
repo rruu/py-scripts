@@ -20,7 +20,7 @@ usernames = []
 def attempt(unames):
     try:
         conn = pp.request_api('getUserPublic', username=unames[:-2])
-        print("Followers: ", conn['user']['n_followers'], " Usersname: " ,conn['user']['username'])
+        print(" ID:", conn['user']['id'], " Followers: ", conn['user']['n_followers'], " Usersname: " ,conn['user']['username'])
     except:
         #print(e.code)
         return
