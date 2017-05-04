@@ -4,6 +4,9 @@ import urllib.request, urllib.error
 import sys, csv, time
 from multiprocessing.dummy import Pool as ThreadPool
 from threading import Lock
+from pyperi import Peri
+
+pp = Peri()
 
 if len(sys.argv) != 2:
     print("Usage: %s /path/to/users.csv" % (str(sys.argv[0])))
@@ -22,16 +25,16 @@ def attempt(unames):
             return
         else:
             pass
-        print("[ + ] " + str(e.code) + " " + unames[:-2])
+        print("[ + ] " + unames[:-2] + " " + str(e.code))
     else:
-        print("[ - ] " + str(conn.getcode()) + " " + unames[:-2])
+        print("[ - ] " + unames[:-2] + " " + str(conn.getcode()))
 
 with open(filecsv_file, "r") as f:
     reader = csv.reader(f, delimiter=',')
     usernames2 = list(reader)
     unames = usernames2[0]
 lock = Lock()
-pool = ThreadPool(5)
+pool = ThreadPool(10)
 
 pool.map(attempt, unames)
 pool.close()
