@@ -22,9 +22,9 @@ def attempt(unames):
             return
         else:
             pass
-        print("[ + ] " + unames[:-2] + " " + str(e.code))
+        print("[ + ] " + str(e.code) + " " + unames[:-2])
     else:
-        print("[ - ] " + unames[:-2] + " " + str(conn.getcode()))
+        print("[ - ] "+ str(conn.getcode()) + " " + unames[:-2])
 
 with open(filecsv_file, "r") as f:
     reader = csv.reader(f, delimiter=',')
