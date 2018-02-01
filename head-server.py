@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-# apt-get install python3-dev libxml2-dev libxslt1-dev zlib1g-dev
 import requests as req
 import sys
 from multiprocessing.dummy import Pool as ThreadPool
