@@ -23,18 +23,22 @@ def parse(urls):
         filename = str(filename + "-" + dtnow + ".jpg")
         #print(url)
         urllib.request.urlretrieve("http://" + str(snappath) + "/snapshot.cgi?user=" + str(login) + "&pwd=" + str(passw), filename)
-
     except urllib.error.HTTPError as e:
-        if e.code == 404:
-            print(str(snappath) + " err ")
+        if e.code == 401:
+            print(str(urls) + " err Unauthorized ")
+            #urllib.request.urlopen("http://" + str(snappath) + "/reboot.cgi?=user=" + str(login) + "&pwd=" + str(passw))
         else:
-            print(str(snappath) + " err ")
+            print(str(urls) + " err ")
+            urllib.request.urlopen("http://" + str(snappath) + "/reboot.cgi?&user=" + str(login) + "&pwd=" + str(passw))
     except:
-        print(str(snappath) + " err ")
+        print(str(urls) + " err ")
+        urllib.request.urlopen("http://" + str(snappath) + "/reboot.cgi?&user=" + str(login) + "&pwd=" + str(passw))
+
 
 lock = Lock()
-pool = ThreadPool(20)
+pool = ThreadPool(5)
 
 pool.map(parse, urls)
 pool.close()
 pool.join()
+
