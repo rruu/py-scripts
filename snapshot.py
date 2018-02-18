@@ -29,11 +29,14 @@ def parse(urls):
             #urllib.request.urlopen("http://" + str(snappath) + "/reboot.cgi?=user=" + str(login) + "&pwd=" + str(passw))
         else:
             print(str(urls) + " err ")
-            urllib.request.urlopen("http://" + str(snappath) + "/reboot.cgi?&user=" + str(login) + "&pwd=" + str(passw))
+            #urllib.request.urlopen("http://" + str(snappath) + "/reboot.cgi?&user=" + str(login) + "&pwd=" + str(passw))
+
+    except socket.error:
+        print(str(urls) + " offline ")
+
     except:
         print(str(urls) + " err ")
-        urllib.request.urlopen("http://" + str(snappath) + "/reboot.cgi?&user=" + str(login) + "&pwd=" + str(passw))
-
+        #urllib.request.urlopen("http://" + str(snappath) + "/reboot.cgi?&user=" + str(login) + "&pwd=" + str(passw))
 
 lock = Lock()
 pool = ThreadPool(5)
@@ -41,4 +44,3 @@ pool = ThreadPool(5)
 pool.map(parse, urls)
 pool.close()
 pool.join()
-
