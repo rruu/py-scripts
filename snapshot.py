@@ -4,7 +4,7 @@ import sys
 from multiprocessing.dummy import Pool as ThreadPool
 from threading import Lock
 import urllib.request, urllib.error
-from datetime import datetime
+#from datetime import datetime
 import socket
 
 socket.setdefaulttimeout(20)
@@ -18,7 +18,7 @@ def parse(urls):
         passw = url.split(':')[1]
         passw = passw.split('@')[0]
         snappath = url.split('@')[1]
-        dtnow = datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
+        #dtnow = datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
         filename = snappath.split(':')[0]
         filename = str(filename + "-" + ".jpg")
         #print(url)
