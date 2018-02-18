@@ -20,7 +20,7 @@ def parse(urls):
         snappath = url.split('@')[1]
         #dtnow = datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
         filename = snappath.split(':')[0]
-        filename = str(filename + "-" + ".jpg")
+        filename = str(filename + "-" + passw + ".jpg")
         #print(url)
         urllib.request.urlretrieve("http://" + str(snappath) + "/snapshot.cgi?user=" + str(login) + "&pwd=" + str(passw), filename)
     except urllib.error.HTTPError as e:
@@ -28,14 +28,24 @@ def parse(urls):
             print(str(urls) + " err Unauthorized ")
             #urllib.request.urlopen("http://" + str(snappath) + "/reboot.cgi?=user=" + str(login) + "&pwd=" + str(passw))
         else:
-            print(str(urls) + " err ")
+            print(str(urls) + " err req. code")
             #urllib.request.urlopen("http://" + str(snappath) + "/reboot.cgi?&user=" + str(login) + "&pwd=" + str(passw))
 
     except socket.error:
-        print(str(urls) + " offline ")
+        try:
+            urllib.request.urlopen("http://" + str(snappath) + "/camera_control.cgi?user=" + str(login) + "&pwd=" + str(passw))
+        #print("http://" + str(snappath) + "/snapshot.cgi?user=" + str(login) + "&pwd=" + str(passw) + " err socket ")
+        except urllib.error.HTTPError as e:
+            if e.code == 200:
+                urllib.request.urlretrieve("http://" + str(snappath) + "/snapshot.cgi?user=" + str(login) + "&pwd=" + str(passw), filename)
+                print(str(urls) + str("http://" + str(snappath) + "/snapshot.cgi?user=" + str(login) + "&pwd=" + str(passw)) + " camera err ")
+            else:
+                print("http://" + str(snappath) + "/snapshot.cgi?user=" + str(login) + "&pwd=" + str(passw) + " err socket ")
+        except:
+            print(str(urls) + str("http://" + str(snappath) + "/snapshot.cgi?user=" + str(login) + "&pwd=" + str(passw)) + " camera socket err ")
 
     except:
-        print(str(urls) + " err ")
+        print("http://" + str(snappath) + "/snapshot.cgi?user=" + str(login) + "&pwd=" + str(passw) + " err oth ")
         #urllib.request.urlopen("http://" + str(snappath) + "/reboot.cgi?&user=" + str(login) + "&pwd=" + str(passw))
 
 lock = Lock()
