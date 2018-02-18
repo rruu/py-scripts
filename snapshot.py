@@ -38,11 +38,11 @@ def parse(urls):
         except urllib.error.HTTPError as e:
             if e.code == 200:
                 urllib.request.urlretrieve("http://" + str(snappath) + "/snapshot.cgi?user=" + str(login) + "&pwd=" + str(passw), filename)
-                print(str(urls) + " " + str("http://" + str(snappath) + "/snapshot.cgi?user=" + str(login) + "&pwd=" + str(passw)) + " camera err ")
+                print(str("http://" + str(snappath) + "/snapshot.cgi?user=" + str(login) + "&pwd=" + str(passw)) + " camera err ")
             else:
                 print("http://" + str(snappath) + "/snapshot.cgi?user=" + str(login) + "&pwd=" + str(passw) + " err socket ")
         except:
-            print(str(urls) + str("http://" + str(snappath) + "/snapshot.cgi?user=" + str(login) + "&pwd=" + str(passw)) + " camera socket err ")
+            print(str("http://" + str(snappath) + "/snapshot.cgi?user=" + str(login) + "&pwd=" + str(passw)) + " camera socket err ")
 
     except:
         print("http://" + str(snappath) + "/snapshot.cgi?user=" + str(login) + "&pwd=" + str(passw) + " err oth ")
