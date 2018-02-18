@@ -20,7 +20,7 @@ def parse(urls):
         snappath = url.split('@')[1]
         dtnow = datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
         filename = snappath.split(':')[0]
-        filename = str(filename + "-" + dtnow + ".jpg")
+        filename = str(filename + "-" + ".jpg")
         #print(url)
         urllib.request.urlretrieve("http://" + str(snappath) + "/snapshot.cgi?user=" + str(login) + "&pwd=" + str(passw), filename)
     except urllib.error.HTTPError as e:
