@@ -18,9 +18,11 @@ def parse(urls):
         passw = url.split(':')[1]
         passw = passw.split('@')[0]
         snappath = url.split('@')[1]
+        port = url.split(':')[2]
         #dtnow = datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
         filename = snappath.split(':')[0]
-        filename = str(filename + "-" + passw + ".jpg")
+        #filename = str(filename + "-" + passw + ".jpg")
+        filename = str(filename + "-" + passw + "-" + str(port) + ".jpg")
         #print(url)
         urllib.request.urlretrieve("http://" + str(snappath) + "/snapshot.cgi?user=" + str(login) + "&pwd=" + str(passw), filename)
     except urllib.error.HTTPError as e:
