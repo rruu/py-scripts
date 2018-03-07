@@ -12,7 +12,7 @@ port = sys.argv[2]
 def parse(ip):
     try:
         resp = req.head("http://" + str(ip) + ":" + str(port), verify=False, timeout=3)
-        print(str(ip) + " Server: " + resp.headers['server'])
+        print(str(ip) + "," + str(port) + "," + resp.headers['server'])
     except urllib.error.HTTPError as e:
         if e.code == 404:
             return
