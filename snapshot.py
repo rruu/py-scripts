@@ -17,17 +17,26 @@ def parse(urls):
     try:
         url = str(urls[7:-1])
         ipaddr = re.findall(ipPattern,url)
-        passw = str(url.split(':')[1].split('@')[:-1])[2:-2]
-        if passw == []:
-            passw = ''
-        else:
-            pass
         snappath = url.split('@')[1]
-        port = url.split(':')[2]
-        filename = snappath.split(':')[0]
-        filename = "{}-{}-{}.jpg".format(filename,passw,port)
-        print("http://{}/snapshot.cgi?user={}&pwd={}".format(snappath,login,passw))
-        urllib.request.urlretrieve("http://{}/snapshot.cgi?user={}&pwd={}".format(snappath,login,passw),filename)
+        passw = str(url.split(':')[1].split('@')[:-1])[2:-2]
+        if passw == '':
+            port = url.split(':')[1]
+            filename = snappath.split(':')[0]
+            filename = "{}-{}.jpg".format(filename,port)
+            get_img = "http://{}/snapshot.cgi?user={}&pwd=".format(snappath,login)
+            print_url = "http://{}/snapshot.cgi?user={}&pwd= \t - \t OK".format(snappath,login)
+            port = url.split(':')[1]
+
+        else:
+            port = url.split(':')[2]
+            filename = snappath.split(':')[0]
+            filename = "{}-{}-{}.jpg".format(filename,passw,port)
+            get_img = "http://{}/snapshot.cgi?user={}&pwd={}".format(snappath,login,passw)
+            print_url = "http://{}/snapshot.cgi?user={}&pwd={} \t - \t OK".format(snappath,login,passw)
+
+ 
+        urllib.request.urlretrieve(get_img,filename)
+        print(print_url)
         
     except urllib.error.HTTPError as e:
         if e.code == 401:
@@ -40,13 +49,14 @@ def parse(urls):
         except urllib.error.HTTPError as e:
             if e.code == 200:
                 urllib.request.urlretrieve("http://{}/snapshot.cgi?user={}&pwd={}".format(snappath,login,passw),filename)
-                print("http://{}/snapshot.cgi?user={}&pwd={} camera err".format(snappath,login,passw))
+                print("http://{}/snapshot.cgi?user={}&pwd={} \t - \t OK".format(snappath,login,passw))
             else:
-                print("http://{}/snapshot.cgi?user={}&pwd={} err socket".format(snappath,login,passw))
+                print("http://{}/snapshot.cgi?user={}&pwd={} \t - \t err socket".format(snappath,login,passw))
         except:
-            print("http://{}/snapshot.cgi?user={}&pwd={} camera socket err".format(snappath,login,passw))
+            print("http://{}/snapshot.cgi?user={}&pwd={} \t - \t camera socket err".format(snappath,login,passw))
     except:
-        print("http://{}/snapshot.cgi?user={}&pwd={} err oth".format(snappath,login,passw))
+        #print("http://{}/snapshot.cgi?user={}&pwd={} - err oth".format(snappath,login,passw))
+        print("{} - err oth".format(print_url))
 
 lock = Lock()
 pool = ThreadPool(5)
