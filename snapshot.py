@@ -34,7 +34,6 @@ def parse(urls):
             get_img = "http://{}/snapshot.cgi?user={}&pwd={}".format(snappath,login,passw)
             print_url = "http://{}/snapshot.cgi?user={}&pwd={} \t - \t OK".format(snappath,login,passw)
 
- 
         urllib.request.urlretrieve(get_img,filename)
         print(print_url)
         
@@ -56,7 +55,7 @@ def parse(urls):
             print("http://{}/snapshot.cgi?user={}&pwd={} \t - \t camera socket err".format(snappath,login,passw))
     except:
         #print("http://{}/snapshot.cgi?user={}&pwd={} - err oth".format(snappath,login,passw))
-        print("{} - err oth".format(print_url))
+        print("{} \t - \t  err oth".format(print_url))
 
 lock = Lock()
 pool = ThreadPool(5)
