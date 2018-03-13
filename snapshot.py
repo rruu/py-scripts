@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+
+# line like http://admin:paswd@x.x.x.x:81/
+
 import sys
 from multiprocessing.dummy import Pool as ThreadPool
 from threading import Lock
@@ -19,8 +22,9 @@ def parse(urls):
         ipaddr = re.findall(ipPattern,url)
         snappath = url.split('@')[1]
         passw = str(url.split(':')[1].split('@')[:-1])[2:-2]
-        if passw == '':
-            port = url.split(':')[1]
+
+        if passw == '' or passw == '<empty>':
+            port = url.split(':')[-1]
             filename = snappath.split(':')[0]
             filename = "{}-{}.jpg".format(filename,port)
             get_img = "http://{}/snapshot.cgi?user={}&pwd=".format(snappath,login)
@@ -30,13 +34,20 @@ def parse(urls):
         else:
             port = url.split(':')[2]
             filename = snappath.split(':')[0]
-            filename = "{}-{}-{}.jpg".format(filename,passw,port)
+
+            response = urllib.request.urlopen("http://{}/get_status.cgi?user={}&pwd={}".format(snappath,login,passw))
+            a = response.read()
+            uid = str(a).split(';')[1][18:-1]
+            filename = "{}-{}-{}-{}.jpg".format(filename,passw,port,uid)
+
+            #filename = "{}-{}-{}.jpg".format(filename,passw,port)
             get_img = "http://{}/snapshot.cgi?user={}&pwd={}".format(snappath,login,passw)
             print_url = "http://{}/snapshot.cgi?user={}&pwd={} \t - \t OK".format(snappath,login,passw)
 
+
         urllib.request.urlretrieve(get_img,filename)
         print(print_url)
-        
+
     except urllib.error.HTTPError as e:
         if e.code == 401:
             print("{} err Unauthorized".format(urls))
@@ -55,7 +66,7 @@ def parse(urls):
             print("http://{}/snapshot.cgi?user={}&pwd={} \t - \t camera socket err".format(snappath,login,passw))
     except:
         #print("http://{}/snapshot.cgi?user={}&pwd={} - err oth".format(snappath,login,passw))
-        print("{} \t - \t  err oth".format(print_url))
+        print("{} - err oth".format(print_url))
 
 lock = Lock()
 pool = ThreadPool(5)

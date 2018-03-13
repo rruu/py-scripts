@@ -45,9 +45,12 @@ try:
         header = str(line.split(",")[2]).strip().replace("'", "")
         insert_query = "INSERT INTO headers (ipaddr,port,header) values ('{}','{}','{}');\r".format(ipaddr,port,header).strip()
         data.append(insert_query.strip())
-        print("INSERT COMPLETE")
+        print('OK ', end="")
+
 except:
     print("INSERT ERR")
+    print(insert_query.strip())
 #print(''.join(map(str, data)))
 cur.execute(''.join(map(str, data)))
 conn.commit()
+print("INSERT COMPLETE")
