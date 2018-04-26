@@ -10,7 +10,7 @@ def touch(argv):
 	html_page = urllib2.urlopen(argv)
 	soup = BeautifulSoup(html_page)
 	for link in soup.findAll('a'):
-		print z+link.get('href')
+        print z+link.get('href')
 
 if __name__ == "__main__":
     try:

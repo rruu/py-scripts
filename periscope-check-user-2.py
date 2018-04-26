@@ -12,7 +12,7 @@ if len(sys.argv) != 2:
 filecsv_file = sys.argv[1]
 
 PERISCOPE_URL = 'https://www.periscope.tv/'
-usernames = []
+#usernames = []
 
 def attempt(unames):
     try:

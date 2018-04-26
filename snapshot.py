@@ -22,6 +22,7 @@ def parse(urls):
         ipaddr = re.findall(ipPattern,url)
         snappath = url.split('@')[1]
         passw = str(url.split(':')[1].split('@')[:-1])[2:-2]
+        #passw = re.sub('[<>\|@()#$%^&*]', '', passw)
 
         if passw == '' or passw == '<empty>':
             port = url.split(':')[-1]
@@ -38,6 +39,7 @@ def parse(urls):
             response = urllib.request.urlopen("http://{}/get_status.cgi?user={}&pwd={}".format(snappath,login,passw))
             a = response.read()
             uid = str(a).split(';')[1][18:-1]
+            uid = re.sub('[<>\|@()#$%^&*]', '', uid)
             filename = "{}-{}-{}-{}.jpg".format(filename,passw,port,uid)
 
             #filename = "{}-{}-{}.jpg".format(filename,passw,port)
@@ -66,7 +68,9 @@ def parse(urls):
             print("http://{}/snapshot.cgi?user={}&pwd={} \t - \t camera socket err".format(snappath,login,passw))
     except:
         #print("http://{}/snapshot.cgi?user={}&pwd={} - err oth".format(snappath,login,passw))
-        print("{} - err oth".format(print_url))
+        #print_url = re.sub('[<>\|@()#$%^&*]', '', print_url)
+        print("{} - err oth".format(ipaddr))
+        #print('Err')
 
 lock = Lock()
 pool = ThreadPool(5)
