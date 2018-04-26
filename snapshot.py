@@ -70,7 +70,6 @@ def parse(urls):
         #print("http://{}/snapshot.cgi?user={}&pwd={} - err oth".format(snappath,login,passw))
         #print_url = re.sub('[<>\|@()#$%^&*]', '', print_url)
         print("{} - err oth".format(ipaddr))
-        #print('Err')
 
 lock = Lock()
 pool = ThreadPool(5)
