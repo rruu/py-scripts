@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
+import cursor
 import lxml.etree
 import lxml.html
 import requests
 import sys
+
+cursor.hide()
 
 if len(sys.argv) < 2 or len(sys.argv) > 2:
     print("Usage: %s RU (country code)" % (str(sys.argv[0])))
@@ -28,3 +31,6 @@ try:
 except:
     print("err")
 f.close()
+
+cursor.show()
+
