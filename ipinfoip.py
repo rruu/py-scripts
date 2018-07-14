@@ -26,7 +26,7 @@ try:
         f = open("{}.log".format(code),'a')
         addrss = r3.xpath('//div[@id="ipv4-data"]/table[@id="block-table"]/tbody[@class="t-14"]/tr/td[1]/a')
         for z in addrss:
-            f.write("{}\n".format(z.text))
+            f.write("{}\n".format((z.text).strip()))
             #print(z.text)
 except:
     print("err")
