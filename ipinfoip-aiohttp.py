@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import lxml.html
-import asyncio, aiohttp, ssl, sys
+import asyncio, aiohttp, sys
 
 if len(sys.argv) < 2 or len(sys.argv) > 2:
     print("Usage: %s RU (country code)" % (str(sys.argv[0])))
@@ -12,9 +12,10 @@ source = ["https://ipinfo.io/countries/{}".format(code)]
 urls = []
 result = []
 
-async def fetch(session, url, ssl=ssl.SSLContext()):
+#async def fetch(session, url, ssl=ssl.SSLContext()):
+async def fetch(session, url):
     async with session.get(url) as response:
-        print("{} - \t\t {}".format(url,response.status), end='\r')
+        print("{} - \t {}".format(url,response.status), end='\r')
         return await response.text()
 
 
@@ -33,6 +34,7 @@ if __name__ == '__main__':
         u = lxml.html.fromstring(u)
         u = u.xpath('//tr/td[1]/a')
         for z in u:
+            #print(z.text)
             urls.append("https://ipinfo.io/{}".format(z.text))
 
     #print(urls)
@@ -44,12 +46,8 @@ if __name__ == '__main__':
         addrss = i.xpath('//div[@id="ipv4-data"]/table[@id="block-table"]/tbody[@class="t-14"]/tr/td[1]/a')
         for a in addrss:
             result.append(a.text)
-            print("Write to file".format(), end='\r')
 
-
-    print('Write to file')
     f = open("{}.log".format(code),'a')
     for r in result:
         f.write("{}\n".format(r.strip()))
     f.close()
-
