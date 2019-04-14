@@ -47,6 +47,8 @@ if __name__ == '__main__':
         as_type = i.xpath('//div[@class="col-6 pt-md-1"][6]/p[@class="font-medium pt-md-1 pb-md-1"]')
         for a in addrss:
             result.append(a.text)
+#            for r in as_type:
+#                if not (r.text).strip() == 'isp': result.append(a.text)
         for b,c in zip(as_name,as_type):
             as_result.append(f'{(b.text).strip()}\t|\t{(c.text).strip()}')
 
